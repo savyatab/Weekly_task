@@ -1,0 +1,37 @@
+[
+    {
+        "user_id":1,
+        "name":"Ram",
+        "city":"Kathmandu",
+        "status":"active",
+        "signup_date":"2026-06-01"
+    },
+    {
+        "user_id":2,
+        "name":"Sita",
+        "city":"Pokhara",
+        "status":"inactive",
+        "signup_date":"2026-06-02"
+    },
+    {
+        "user_id":3,
+        "name":"Hari",
+        "city":"Butwal",
+        "status":"active",
+        "signup_date":"2026-06-03"
+    },
+    {
+        "user_id":4,
+        "name":"Rehana",
+        "city":"Dang",
+        "status":"active",
+        "signup_date":"2026-06-05"
+    },
+    {
+        "user_id":5,
+        "name":"Amrit",
+        "city":"Chitwan",
+        "status":"inactive",
+        "signup_date":"2026-06-03"
+    }
+]
