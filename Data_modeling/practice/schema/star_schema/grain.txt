@@ -1,0 +1,17 @@
+Grain = the level of detail of a row in a fact table.
+Example of fact_enrollment in facts.sql 
+
+1. Example 1: Fine Grain (detailed level)
+              One row = one student enrolling in one course on one date
+              Each row = one event
+
+2. Example 2: Even Finer Grain
+              One row = one student action per course per second (like clicks or activity logs)
+Used in:
+YouTube views
+Website clicks
+
+Example 3: Coarser Grain
+           One row = total enrollments per course per month
+course_id	month	total_students
+101	         Jan	    50

@@ -1,0 +1,10 @@
+                gender
+                   ↑
+   students → dim_student
+
+fact_enrollments
+   ↑        ↑        ↑
+   |        |        |
+student   course    dim_date
+              ↓         ↓
+         department    month
