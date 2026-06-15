@@ -1,0 +1,39 @@
+Window Function
+-->Calculates result across rows without collapsing them
+-->keeps all rows but add analytics on top
+Example:
+function() OVER (
+    PARTITION BY column
+    ORDER BY column
+)
+TYPES:
+1. ROW_NUMBER()-> UNIQUE NUMBERING
+ROW_NUMBER() OVER (PARTITION BY department ORDER BY salary DESC)
+
+2.RANK() -> RANKING WITH GAPS
+RANK() OVER (ORDER BY salary DESC) AS RANK
+
+3.DENSE() ->RANKING WITHOUT GAPS
+
+4.SUM() OVER()->RUNNING TOTAL
+SUM(sales) OVER (ORDER BY date)
+
+4. LAG() / LEAD()-> ACESS PREVIOUS OR NEXT ROW.
+LAG(salary) OVER (ORDER BY month)
+
+Deduplication
+->It is the process of identifying repeated records and keeping only one correct version per entity.
+Duplicates usually occur due to:repeated data imports,system glitches,multiple API calls,
+missing primary keys.
+exampple:
+WITH ranked_data AS (
+    SELECT *,
+           ROW_NUMBER() OVER (
+               PARTITION BY user_id  --> groups duplicates of each user
+               ORDER BY created_at DESC
+           ) AS rn -> keeps only the latest record
+    FROM users
+)
+SELECT *
+FROM ranked_data
+WHERE rn = 1;

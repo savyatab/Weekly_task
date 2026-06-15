@@ -1,0 +1,19 @@
+Query Plan->A query plan shows how the database executes a SQL query step by step.
+Understanding query plans:
+# How Sql executes a query
+# Which table is scanned first
+# Whether indexes are used 
+# Which join algorithm is selected
+
+
+1> Explain: EXPLAIN 
+            SELECT *
+            FROM orders;
+(only shows the planned execution but doesnot run query)
+
+2> Explain analyze:
+runs the query and shows the real execution statistics.
+->ACTUAL Loops count
+->actual rows proceesed
+->real execution time
+->execution plan 
