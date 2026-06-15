@@ -1,4 +1,3 @@
-
 class Person:
     name :str
     job : str
