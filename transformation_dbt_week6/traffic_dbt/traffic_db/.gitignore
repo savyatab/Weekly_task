@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+
+# dbt output folders
+target/
+dbt_packages/
+logs/
+
+# dbt artifacts
+*.json
+*.lock
+
+# OS files
+.DS_Store
+
+# IDE files
+.vscode/
+.idea/
+
+# Temporary files
+*.log
+*.tmp

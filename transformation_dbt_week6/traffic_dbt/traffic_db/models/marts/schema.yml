@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: fact_traffic
+
+    columns:
+      - name: congestion_level
+        tests:
+          - accepted_values:
+              values:
+                - HIGH
+                - MEDIUM
+                - LOW
