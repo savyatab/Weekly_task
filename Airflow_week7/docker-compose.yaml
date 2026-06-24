@@ -1,0 +1,87 @@
+version: '3.8'
+
+x-airflow-common: &airflow-common
+  image: apache/airflow:2.7.2
+  environment:
+    &airflow-common-env
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres-db:5432/airflow
+    AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres-db:5432/airflow
+    AIRFLOW__CORE__FERNET_KEY: ''
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'False'
+    AIRFLOW__LOGGING__LOG_LEVEL: INFO
+    # Installs dbt seamlessly inside the orchestrator on boot
+    _PIP_ADDITIONAL_REQUIREMENTS: "dbt-postgres==1.7.0"
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./logs:/opt/airflow/logs
+    - ./plugins:/opt/airflow/plugins
+    - ./config:/opt/airflow/config
+    - ./src:/opt/airflow/src
+    - .:/opt/airflow/ecommerce_dbt  # Binds current folder directly to dbt workspace
+  user: "${AIRFLOW_UID:-50000}:0"
+  depends_on:
+    postgres-db:
+      condition: service_healthy
+  networks:
+    - elt_network
+
+services:
+  # 1. Database Instance (Metadata + Warehouse Analytics Engine)
+  postgres-db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow -d airflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - elt_network
+
+  # 2. Airflow Webserver (UI Layer)
+  airflow-webserver:
+    <<: *airflow-common
+    command: webserver
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: always
+
+  # 3. Airflow Scheduler (Orchestration Engine)
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+    restart: always
+
+  # 4. Airflow DB Init (Preps DB on startup)
+  airflow-init:
+    <<: *airflow-common
+    command: db init
+    environment:
+      <<: *airflow-common-env
+      _AIRFLOW_DB_UPGRADE: 'true'
+      _AIRFLOW_WWW_USER_CREATE: 'true'
+      _AIRFLOW_WWW_USER_USERNAME: airflow
+      _AIRFLOW_WWW_USER_PASSWORD: airflow
+    depends_on:
+      - postgres-db
+
+volumes:
+  postgres-db-volume:
+
+networks:
+  elt_network:
+    driver: bridge
+    
