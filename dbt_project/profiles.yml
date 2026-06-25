@@ -1,0 +1,12 @@
+warehouse_profile:
+  outputs:
+    dev:
+      type: postgres
+      host: 127.0.0.1  
+      user: pipeline_user
+      password: "12345"
+      port: 5433
+      dbname: warehouse
+      schema: public
+      threads: 1
+  target: dev
