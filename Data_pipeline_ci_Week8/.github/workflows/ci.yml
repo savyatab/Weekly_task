@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      # Spin up Postgres directly in GitHub's test environment
+      # Spin up Postgres directly in GitHub's clean test environment
       postgres_warehouse:
         image: postgres:15-alpine
         env:
@@ -20,7 +20,7 @@ jobs:
           POSTGRES_DB: warehouse
         ports:
           - 5432:5432
-        # Ensure Postgres is fully responsive before starting the runner steps
+        
         options: >-
           --health-cmd "pg_isready -U pipeline_user -d warehouse"
           --health-interval 10s
@@ -59,10 +59,16 @@ jobs:
           "
 
       - name: Verify dbt Connection
+        env:
+          DB_PORT: 5432  # <-- Overrides local fallback so GitHub uses port 5432
         run: dbt debug --project-dir dbt_project --profiles-dir dbt_project
 
       - name: Execute dbt Models
+        env:
+          DB_PORT: 5432  # <-- Overrides local fallback so GitHub uses port 5432
         run: dbt run --project-dir dbt_project --profiles-dir dbt_project
 
       - name: Run Data Tests
+        env:
+          DB_PORT: 5432  # <-- Overrides local fallback so GitHub uses port 5432
         run: dbt test --project-dir dbt_project --profiles-dir dbt_project
