@@ -2,6 +2,8 @@
 venv/
 .venv/
 env/
+
+# Python Cache
 __pycache__/
 *.pyc
 
@@ -11,8 +13,15 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# Testing and dbt Cache
+# Testing
 .pytest_cache/
+
+# Environment Variables
+.env
+.env.*
+
+# dbt
 dbt_project/target/
-dbt_project/dbt_packages/
 dbt_project/logs/
+dbt_project/dbt_packages/
+dbt_project/.user.yml
