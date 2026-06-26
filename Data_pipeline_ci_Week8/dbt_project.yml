@@ -1,0 +1,6 @@
+﻿name: 'data_pipeline_ci_week8'
+version: '1.0.0'
+config-version: 2
+profile: 'warehouse_profile'
+model-paths: ["models"]
+test-paths: ["tests"]

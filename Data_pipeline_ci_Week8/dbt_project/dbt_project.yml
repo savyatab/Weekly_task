@@ -1,0 +1,25 @@
+name: 'data_pipeline_ci_week8'
+version: '1.0.0'
+config-version: 2
+
+profile: 'warehouse_profile'
+
+model-paths: ["models"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# Default configuration for models
+models:
+  data_pipeline_ci_week8:
+    # Staging models are materialized as views by default
+    staging:
+      +materialized: view
+    # Marts/Core models are materialized as tables by default
+    marts:
+      +materialized: table

@@ -1,0 +1,17 @@
+#Pre-commit hooks intercept your code changes locally when you run git commit.
+# If your code fails ruff formatting or basic syntax checks, it stops you from committing until it's fixed.
+
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.10
+    hooks:
+      - id: ruff
+        args: [ --fix ]
+      - id: ruff-format
+
+  - repo: https://github.com/sqlfluff/sqlfluff
+    rev: 3.1.0
+    hooks:
+      - id: sqlfluff-lint
+        additional_dependencies: ['sqlfluff-minimal-dbt', 'dbt-postgres']
+        args: [--dialect, postgres]
