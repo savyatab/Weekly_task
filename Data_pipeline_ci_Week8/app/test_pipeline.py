@@ -8,7 +8,6 @@ def test_calculate_tax_success():
 def test_calculate_tax_negative_value_raises_error():
     with pytest.raises(ValueError):
         calculate_tax(-10.0,0.15)
-#Intentional failing test-
 def test_intentional_failure_for_ci_verification():
     print("Executing CI check verification........")
     assert calculate_tax(50.0,0.10) == 5.0

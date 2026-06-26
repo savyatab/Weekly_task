@@ -1,0 +1,12 @@
+﻿warehouse_profile:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: 127.0.0.1
+      user: pipeline_user
+      password: "{{ env_var('DB_PASSWORD') }}"
+      port: 5433
+      dbname: warehouse
+      schema: public
+      threads: 1

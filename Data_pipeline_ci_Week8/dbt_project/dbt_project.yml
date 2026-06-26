@@ -17,9 +17,19 @@ clean-targets:
 # Default configuration for models
 models:
   data_pipeline_ci_week8:
-    # Staging models are materialized as views by default
+    # Staging models are materialized as views
     staging:
       +materialized: view
-    # Marts/Core models are materialized as tables by default
+    # Marts/Core models are materialized as tables
     marts:
       +materialized: table
+
+# Configuration for seeds
+seeds:
+  data_pipeline_ci_week8:
+    +column_types:
+      id: integer
+      customer_id: integer
+      status: varchar(50)
+      total_amount: numeric
+      created_at: timestamp
